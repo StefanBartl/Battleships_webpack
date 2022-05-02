@@ -81,4 +81,5 @@ const Player = function (){
 
 // ! Test calls:
 a = new Gameboard(25);
-console.log(a.gameboard)
+
+module.exports = Ship;
