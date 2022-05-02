@@ -1,0 +1,27 @@
+{
+  "name": "battleship-webpack-jest",
+  "version": "1.0.0",
+  "description": "Battleship trainings project with webpack and jest.",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StefanBartl/Battleship.git"
+  },
+  "author": "Stefan Bartl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StefanBartl/Battleship/issues"
+  },
+  "homepage": "https://github.com/StefanBartl/Battleship#readme",
+  "devDependencies": {
+    "css-loader": "^6.7.1",
+    "jest": "^28.0.3",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  }
+}
