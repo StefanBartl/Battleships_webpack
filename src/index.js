@@ -1,9 +1,21 @@
 import './style.css';
-const TestShip= require('../ship');
-const MS_BattleshipBrowser = new TestShip(2);
-MS_BattleshipBrowser.hit(1);
-MS_BattleshipBrowser.hit(2);
-console.log(MS_BattleshipBrowser.sunkenState());
+
+//#region Ship formation
+const Battleship= require('../src/app-modules/ship');
+const MS_BattleshipBrowser = new Battleship(2);
+// MS_BattleshipBrowser.hit(1);
+// MS_BattleshipBrowser.hit(2);
+// console.log(MS_BattleshipBrowser.sunkenState());
+// console.log(MS_BattleshipBrowser.type);
+//#endregion
+
+const Gameboard = require('./app-modules/gameboard');
+const Gameboard_One = new Gameboard(10,6);
+// console.log(Gameboard_One);
+Gameboard_One.placement("corvette", [1, 2], [1, 3]);
+Gameboard_One.receiveAttack(1,2);
+Gameboard_One.receiveAttack(1,3);
+console.log(Gameboard_One);
 
 const container = document.querySelector(".container");
 const text = document.createElement("p");

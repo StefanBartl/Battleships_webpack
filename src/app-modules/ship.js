@@ -1,4 +1,4 @@
-const TestShip = function (length) {
+const Ship = function (length) {
   // Ships will be objects that include their length, where they’ve been hit and whether or not they’ve been sunk
   
     if(length < 1 || length === undefined) throw new Error("Ship must have a length.");
@@ -9,6 +9,23 @@ const TestShip = function (length) {
     for(let x = 1; x <= length; x++){
         sections[x] = "ok";
     };
+
+    // Assign type to ship depening on its length
+    type = '';
+    switch (length) {
+      case 1:
+          type = 'cruiser';
+          break;
+      case 2:
+        type = 'corvette';
+        break;
+      case 3:
+        type = 'battleship';
+        break;
+      case 4:
+        type = 'aircraft-carrier';
+        break;
+  };
 
     // Returns the actual states of the sections
     sectionsState = () => {
@@ -46,7 +63,7 @@ const TestShip = function (length) {
         return `Ship hitted at section ${section}`;
     };
 
-   return { length, damage, sectionsState, sunkenState, hit };
-  };
+   return { length, type, damage, sectionsState, sunkenState, hit };
+};
   
-  module.exports = TestShip;
+module.exports = Ship;
