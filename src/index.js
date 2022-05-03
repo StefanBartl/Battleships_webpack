@@ -1,9 +1,11 @@
 import './style.css';
 const TestShip= require('../ship');
-const MS_BattleshipBrowser = new TestShip(7,1,false);
+const MS_BattleshipBrowser = new TestShip(2);
+MS_BattleshipBrowser.hit(1);
+MS_BattleshipBrowser.hit(2);
+console.log(MS_BattleshipBrowser.sunkenState());
 
 const container = document.querySelector(".container");
-
 const text = document.createElement("p");
 text.innerText = "Battleship project test text";
 container.appendChild(text);
