@@ -63,7 +63,7 @@ const Ship = function (length) {
         return `Ship hitted at section ${section}`;
     };
 
-   return { length, type, damage, sectionsState, sunkenState, hit };
+   return { length, type, damage, sectionsState, sunkenState, hit};
 };
   
 module.exports = Ship;

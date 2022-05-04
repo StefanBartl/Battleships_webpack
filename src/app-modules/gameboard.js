@@ -15,8 +15,11 @@ const Gameboard = function (sizeX, sizeY){
         
         shipIDCounter = 1;
         shipFormation = [];
-        missedAttacks = {};
         attackCount = 1;
+        missedAttacks = {};  // Gameboards should keep track of missed attacks so they can display them properly.
+        // Gameboards should be able to report whether or not all of their ships have been sunk.
+        formationCounter = 0;
+        destroyed = false;     
 
         placement = (type, start, end) => {
             // Vailadtion of arguments
@@ -43,6 +46,7 @@ const Gameboard = function (sizeX, sizeY){
             };
             newShip.ID = shipIDCounter;
             shipFormation.push(newShip);
+            formationCounter++;
 
              // Make the placement in the gameboard array
             correctPlacement = false;
@@ -64,12 +68,14 @@ const Gameboard = function (sizeX, sizeY){
             };       
             shipIDCounter++;
 
+            // Set Gameboard back to alive
+            if(destroyed === true) destroyed = false;
             // Inform invoker of placement
             if  (correctPlacement === true) {
-                console.log(`Plaement of ${type} fullfilled: ${correctPlacement}.`); 
+                // console.log(`Plaement of ${type} fullfilled: ${correctPlacement}.`); 
                 return  `Plaement of ${type} fullfilled: ${correctPlacement}.`;
             } else {
-                console.log(`Plaement of ${type} fullfilled: ${correctPlacement}. Coordinates for placement not accurate.`);
+                // console.log(`Plaement of ${type} fullfilled: ${correctPlacement}. Coordinates for placement not accurate.`);
                 return `Plaement of ${type} fullfilled: ${correctPlacement}. Coordinates for placement not accurate.`; 
             };
         };
@@ -78,54 +84,42 @@ const Gameboard = function (sizeX, sizeY){
         // Gameboards should have a receiveAttack function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
         receiveAttack = (x, y)=>{
             if(typeof x !== 'number' || typeof y !== 'number') throw new TypeError(`Only 'numbers' are allowed`);
+            // Get the attacked cell in the gameboard
             gameboard_row = gameboard[y];
-            attack = gameboard_row[x];
+            attackedCell = gameboard_row[x];
 
-            if(attack !== 0) {
-                attack.hitted = true;
+            // If the attacked cell is not empty...
+            if(attackedCell !== 0) {
+                // Set gameboard cell to hitted
+                attackedCell.hitted = true;
+                // Get the attacked ship and hit it
+                attackedShip = shipFormation[attackedCell.ID - 1];
+                attackedShip.hit(attackedCell.Section);
+
+        // ? Return if a ship get hitted or the whole formation is erased
+                //  If all ships in formation are sunken, return this
                 for(let x of shipFormation){
-                    if(x.ID === attack.ID){
-                        x.hit(attack.Section);
-                    };
                     if(x.sunkenState() === true){
-                        shipFormation[x.ID - 1].isSunken = true;
-                        console.log(`Hitted. ${attack.Type} with ID ${attack.ID} is sunken.`);
-                        return `Hitted. ${attack.Type} with ID ${attack.ID} is sunken.`
+                        formationCounter--;
+                        if(formationCounter === 0){
+                            destroyed = true;
+                            console.log(`Attach hitted & destroyed last ship!`);
+                            return `Attach hitted & destroyed last shipt!`;
+                        };
                     };
                 };
-
-                for(let x of shipFormation){
-                    maxShips = shipFormation.length;
-                    destroyedShips = 0;
-                    val = x.isSunken;
-                    console.log("val",val);
-                    console.log(x);
-                    if(x.sunkenState() ===  true){
-                        console.log("jjjjjjjjjjjjjjjjjjjjjjjj");
-                        destroyedShips++;
-                    };
-                    console.log(`des`, destroyedShips);
-                    console.log("max", maxShips);
-                    if(destroyedShips === maxShips){
-                        console.log(`All ships are destroyed!`);
-                        return `All ships are destroyed!`;
-                    };
-                };
-
+                    // If the attack hitted a ship, return this
                     console.log(`Attack hitted a ship`);
                     return `Attack hitted a ship`;
                 } else {
+                    // If the attack didn't hit a ship, return this and keep track of missed attacks
                     missedAttacks[attackCount] = [x, y];
                     console.log(`Attack didn't hitted a ship`);
                     return `Attack didn't hitted a ship`;
                 };
         };
-    
-        // Gameboards should keep track of missed attacks so they can display them properly.
-        // Gameboards should be able to report whether or not all of their ships have been sunk.
-    
-    
-        return { gameboard, placement, receiveAttack, attackCount, missedAttacks };
+
+        return { gameboard, placement, receiveAttack, attackCount, missedAttacks, formationCounter, destroyed };
 };
 
 module.exports = Gameboard;
