@@ -1,27 +1,51 @@
 import './style.css';
-
-//#region Ship formation
 const Battleship= require('../src/app-modules/ship');
-const MS_BattleshipBrowser = new Battleship(2);
-// MS_BattleshipBrowser.hit(1);
-// MS_BattleshipBrowser.hit(2);
-// console.log(MS_BattleshipBrowser.sunkenState());
-// console.log(MS_BattleshipBrowser.type);
+const Gameboard = require('./app-modules/gameboard');
+const Player = require('../src/app-modules/player');
+const Gameplay = require('./app-modules/gameplay');
+
+const Game = new Gameplay(); // Game object which holds information about the game
+
+//#region Ship factory
+// const Battleship= require('../src/app-modules/ship');
+// const MS_BattleshipBrowser = new Battleship(2); // ? Create a new ship. The type depends on the length.
+// MS_BattleshipBrowser.hit(1); // ? Hit a ship (Returns a error if the argument isn't in the range of ship length)
+// console.log(MS_BattleshipBrowser.type); // ? Returns the ship type
+// console.log(MS_BattleshipBrowser.sunkenState()); // ? Returns if the ship is sunken
 //#endregion
 
-const Gameboard = require('./app-modules/gameboard');
-const Gameboard_One = new Gameboard(10,6, 'Test player');
-Gameboard_One.placement("battleship", [3, 1], [5, 1]);
-Gameboard_One.receiveAttack(1,3);
-console.log(Gameboard_One.shipFormation[0].sectionsState());
-// Gameboard_One.receiveAttack(1,3);
-// console.log(Gameboard_One.alive());
+//#region  Gameboard factory
+//const Gameboard = require('./app-modules/gameboard');
+// const Gameboard_One = new Gameboard(10,6, 'Test player'); // ? Creates a new Gameboard with 10 rows / 6 columns for the player 'Test player'
+// Gameboard_One.placement("battleship", [3, 1], [5, 1]);  // ? Placing a battleship on the gameboard in the 1 column from row 3 to 5
+// Gameboard_One.receiveAttack(3,1); // ? Attack the gameboard
+// console.log(Gameboard_One.shipFormation[0].sectionsState()); // ? Returns the ship sections
+// console.log(Gameboard_One.receiveAttack(1,3)); // ? Returns if the attack hits a ship (maybe which section?   )
+// console.log(Gameboard_One.alive()); // ? Returns if ships are on the gameboard
+//#endregion
 
+//#region Player factory
+//const Player = require('../src/app-modules/player');
+const Gameboard_TestEnemy = new Gameboard(10,6, 'Test player'); // ? Creates a new Gameboard with 10 rows / 6 columns for the player 'Test player'
+Gameboard_TestEnemy.placement("battleship", [3, 1], [5, 1]);  // ? Placing a battleship on the gameboard in the 1 column from row 3 to 5
+const TestPlayer = new Player('TestPlayer', true, Gameboard_TestEnemy, Game); // ? Creates a new Player
+TestPlayer.attack(3,1); // ? Attacks the enemy
+let e = Gameboard_TestEnemy.receiveAttack(4, 1);
+console.log('Section state of attacked ship: ',  e.ship.sectionsState());
+console.log('Health: ', e.ship.health());
+console.log('Players enemy gameboard: ', TestPlayer.enemy.gameboard);
+
+
+//#endregion
+
+
+
+//#region User interface
 const container = document.querySelector(".container");
 const text = document.createElement("p");
 text.innerText = "Battleship project test text";
 container.appendChild(text);
-
+//#endregion
 
 // ? Example: Image  
 /*

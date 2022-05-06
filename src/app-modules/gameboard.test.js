@@ -1,74 +1,61 @@
 const Gameboard = require('./gameboard');
 
-// Gameboards should keep track of missed attacks so they can display them properly.
-
-// Correct placement
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Correct gameboard object placement.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     expect(Gameboard_Test.placement('battleship', [2, 2], [4, 2])).toBe('Placement of battleship fullfilled: true. Coordinates: Start X2/Y2, End X4/Y2');
 });
 
-// Incorrect value type for ships. Only strings are allowed 
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Incorrect value type for ships. Only strings are allowed.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     expect(()=>{Gameboard_Test.placement(5, [2, 2], [4, 2])}).toThrow(TypeError);
 });
 
-// Incorrect value type placements. only arrays are allowed
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Incorrect value type for placement, only arrays are allowed.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     expect(()=>{Gameboard_Test.placement('battleship', 'two, three', [4, 2])}).toThrow(TypeError);
 });
 
-// Only the x and the y values are allowed in each placement array
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Only the x and the y values are allowed in each placement array.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     expect(()=>{Gameboard_Test.placement('battleship', [2, 3, 4], [4, 2])}).toThrow(Error);
 });
 
-// Ship type do not correspond with the value of possible fields in the placement must be made (f.e. a ship with length 3 occupies 3 fields...) 
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Ship type do not correspond with the value of possible fields in the placement must be made (f.e. a ship with length 3 occupies 3 fields...).', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     expect(()=>{Gameboard_Test.placement('battleship', [2, 2], [3, 2])}).toThrow(Error);
 });
 
-//  Gameboards should be able to report whether or not all of their ships have been sunk.
-test('Calling .alive() to get a boolean if there is any ship on the gameboard or not', () => {
+test('Gameboards should be able to report whether or not all of their ships have been sunk. Calling .alive() to get a boolean if there is any ship on the gameboard or not.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     let  a  =Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
     expect(Gameboard_Test.alive()).toBe(true);
 });
 
-//  Gameboards should be able to report whether or not all of their ships have been sunk.
-test('Calling .alive() to get a boolean if there is any ship on the gameboard or not', () => {
+test('Calling .alive() to get a boolean if there is any ship on the gameboard or not - testing of false.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     // No ship placed on the gameboard or all have been sunken
     expect(Gameboard_Test.alive()).toBe(false);
 });
 
-// Gameboards should have a receiveAttack function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Gameboards should have a receiveAttack function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
-    expect(Gameboard_Test.receiveAttack(2, 2)).toBe('Attack hitted a ship');
+    expect(Gameboard_Test.receiveAttack(2, 2)).not.toBe(false);
 });
 
-// Only two 'numbers' are allowed
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Only two "numbers" are allowed', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
     expect(()=>{Gameboard_Test.receiveAttack(2, "2")}).toThrow(TypeError);
 });
 
-// Only attacks  IN the gameboard are possible
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Only attacks  IN the gameboard are possible.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
     expect(()=>{Gameboard_Test.receiveAttack(34, 9)}).toThrow(Error);
 });
 
-// To check the accurate state of a ship is hitted or not and proof if the recceiveAttack() triggers the ship object hit() function
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('To check the accurate state of a ship is hitted or not and proof if the recceiveAttack() triggers the ship object hit() function', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
     Gameboard_Test.receiveAttack(2, 2);
@@ -79,36 +66,30 @@ test('Gameboards should be able to place ships at specific coordinates by callin
     });
 });
 
-// Gameboards should keep track of missed attacks so they can display them properly.
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Gameboards should keep track of missed attacks so they can display them properly.', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
-    Gameboard_Test.receiveAttack(5, 2);
-    expect(Gameboard_Test.missedAttacks).toStrictEqual({
-        1: [5, 2]
-    });
+    Gameboard_Test.receiveAttack(5, 10);
+    expect(Gameboard_Test.missedAttacks[0]).toStrictEqual([10, 5]);
 });
 
-// Gameboards should be able to report whether or not all of their ships have been sunk.(Ship on the Gameboard)
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Gameboards should be able to report whether or not all of their ships have been sunk.(Ship on the Gameboard)', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
     expect(Gameboard_Test.alive()).toBe(true);
 });
 
-// Gameboards should be able to report whether or not all of their ships have been sunk. (Ǹo ship on the Gameboard)
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Gameboards should be able to report whether or not all of their ships have been sunk. (No ship on the Gameboard)', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     expect(Gameboard_Test.alive()).toBe(false);
 });
 
-// Gameboards should be able to report whether or not all of their ships have been sunk. (Last ship on the Gameboard destroyed)
-test('Gameboards should be able to place ships at specific coordinates by calling the ship factory function.', () => {
+test('Gameboards should be able to report whether or not all of their ships have been sunk. (Last ship on the Gameboard destroyed)', () => {
     const Gameboard_Test = new Gameboard(10, 5, 'TestPlayer');
     Gameboard_Test.placement('battleship', [2, 2], [4, 2]);
     Gameboard_Test.receiveAttack(2, 2);
-    Gameboard_Test.receiveAttack(2, 3);
-    Gameboard_Test.receiveAttack(2, 4);
+    Gameboard_Test.receiveAttack(3, 2);
+    Gameboard_Test.receiveAttack(4, 2);
     expect(Gameboard_Test.alive()).toBe(false);
 });
 

@@ -36,7 +36,7 @@ const Ship = function (length) {
       return actual_ship_state;
     };
 
-    // Returns the actual damage property
+    // Returns the actual number of damaged sections
     damage = () => {
       damagedSections = 0;
       for(let x = 1; x <= length; x++){
@@ -45,12 +45,17 @@ const Ship = function (length) {
       return damagedSections;
     };
 
+     // Returns the health points
+    health = () => {
+     return length - damage();
+    };
+
     // sunkenState should be a function that calculates it based on their length and whether all of their positions are ‘hit’. The result can be returned as boolean or as a string
     sunkenState = (asString)=>{
         if(damage() === length){
             if(asString === true) {return `This ship is sunken.`}
             else return true;
-         } else if(asString === true){return `This ship isn't sunken.`}
+         } else if(asString === true){return `This ship isn't sunken. Actual health: ${health()}`}
             else return false;
     };
   
@@ -58,12 +63,12 @@ const Ship = function (length) {
      hit =  (section)=>{
        // Check for correct argument
         if(typeof section !== 'number' || section < 1 || section > length) throw new Error(`Only a 'number' between 1 an ${length} (ship length) is allowed.`);
-
         sections[section] = "hitted";   // console.log(`Section ${section} status: ${sections[section]}`);
+        health--;
         return `Ship hitted at section ${section}`;
     };
 
-   return { length, type, damage, sectionsState, sunkenState, hit};
+   return { length, type, health, damage, sectionsState, sunkenState, hit};
 };
   
 module.exports = Ship;

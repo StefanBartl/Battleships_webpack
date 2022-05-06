@@ -25,7 +25,7 @@ test('should be a function that calculates it based on their length and whether 
 
 test('should be a function that calculates it based on their length and whether all of their positions are hit. (string)', () => {
   const MS_Battleship = new Ship(7);
-  expect(MS_Battleship.sunkenState(true)).toBe(`This ship isn't sunken.`);
+  expect(MS_Battleship.sunkenState(true)).toBe(`This ship isn't sunken. Actual health: 7`);
 });
 
 test('Should return the actual state of Section 1', () => {
