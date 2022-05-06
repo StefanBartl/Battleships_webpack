@@ -10,12 +10,12 @@ const MS_BattleshipBrowser = new Battleship(2);
 //#endregion
 
 const Gameboard = require('./app-modules/gameboard');
-const Gameboard_One = new Gameboard(10,6);
-// console.log(Gameboard_One);
-Gameboard_One.placement("corvette", [1, 2], [1, 3]);
-Gameboard_One.receiveAttack(1,2);
+const Gameboard_One = new Gameboard(10,6, 'Test player');
+Gameboard_One.placement("battleship", [3, 1], [5, 1]);
 Gameboard_One.receiveAttack(1,3);
-console.log(Gameboard_One);
+console.log(Gameboard_One.shipFormation[0].sectionsState());
+// Gameboard_One.receiveAttack(1,3);
+// console.log(Gameboard_One.alive());
 
 const container = document.querySelector(".container");
 const text = document.createElement("p");
@@ -50,7 +50,7 @@ todo                 Javascript - what a wonderful language!
 
 //#region Open Jobs  
 /*
-todo    
+todo    Gameboard placement does not correspond with receivAttack - Axis are changed
 */
 //#endregion
 
