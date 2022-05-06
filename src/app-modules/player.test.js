@@ -1,7 +1,15 @@
+// ! Test Setup
 const Player = require('./player');
+const Game = require('./gameplay');
+const Gameboard = require('./gameboard');
+const TestGame = new Game(1, "Test Game");
+const EnemyTestGameboard = new Gameboard(10, 10, 'Test');
+EnemyTestGameboard.placement("battleship", [3, 1], [5, 1]); 
+const TestPlayer = new Player("Test", true, EnemyTestGameboard, TestGame);
 
-test('Test Description', () => {
-    expect().toBe();
+
+test('Players can take turns playing the game by attacking the enemy Gameboard.', () => {
+    expect(TestPlayer.attack(4,1).ship).not.toBe(false); // Get a object back with a string and the attacked ship
 });
 
 
