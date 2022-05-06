@@ -4,7 +4,7 @@ const Gameboard = require('./app-modules/gameboard');
 const Player = require('../src/app-modules/player');
 const Gameplay = require('./app-modules/gameplay');
 
-const Game = new Gameplay(); // Game object which holds information about the game
+const Game = new Gameplay(1, "Welcome to Battleship"); // Game object which holds information about the game
 
 //#region Ship factory
 // const Battleship= require('../src/app-modules/ship');
@@ -26,14 +26,25 @@ const Game = new Gameplay(); // Game object which holds information about the ga
 
 //#region Player factory
 //const Player = require('../src/app-modules/player');
-const Gameboard_TestEnemy = new Gameboard(10,6, 'Test player'); // ? Creates a new Gameboard with 10 rows / 6 columns for the player 'Test player'
-Gameboard_TestEnemy.placement("battleship", [3, 1], [5, 1]);  // ? Placing a battleship on the gameboard in the 1 column from row 3 to 5
-const TestPlayer = new Player('TestPlayer', true, Gameboard_TestEnemy, Game); // ? Creates a new Player
-TestPlayer.attack(3,1); // ? Attacks the enemy
-let e = Gameboard_TestEnemy.receiveAttack(4, 1);
-console.log('Section state of attacked ship: ',  e.ship.sectionsState());
-console.log('Health: ', e.ship.health());
-console.log('Players enemy gameboard: ', TestPlayer.enemy.gameboard);
+// ! Create Game
+const Gameboard_FirstComputer = new Gameboard(10,6, 'First Computer'); // ? Creates a new Gameboard with 10 rows / 6 columns for the player 'Test player'
+const Gameboard_TestPlayer = new Gameboard(10,6, 'Test Player');
+
+const FirstComputer = new Player('First Computer', false, Gameboard_TestPlayer, Game); // ? Create Player
+Gameboard_FirstComputer.placement("battleship", [3, 1], [5, 1]);  // ? Placing a battleship on the gameboard in the 1 column from row 3 to 5
+
+const TestPlayer = new Player('Test Player', true, Gameboard_FirstComputer, Game); 
+Gameboard_TestPlayer.placement("battleship", [3, 1], [5, 1]); 
+
+
+
+
+
+// TestPlayer.attack(3,1); // ? Attacks the enemy
+// let e = Gameboard_TestEnemy.receiveAttack(4, 1); // Get the attacked ship object 
+// console.log('Section state of attacked ship: ',  e.ship.sectionsState()); // ? Get the actual section state of the attacked enemy ship 
+// console.log('Health: ', e.ship.health()); // ? Get the health of the attacked enemy ship 
+// console.log('Players enemy gameboard: ', TestPlayer.enemy.gameboard); // ? Get the actual gameboard of the enemy
 
 
 //#endregion
