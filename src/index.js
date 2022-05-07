@@ -26,7 +26,6 @@ const Game = new Gameplay(1, "Welcome to Battleship"); // Game object which hold
 
 //#region Player factory
 //const Player = require('../src/app-modules/player');
-// ! Create Game
 const Gameboard_FirstComputer = new Gameboard(10,6, 'First Computer'); // ? Creates a new Gameboard with 10 rows / 6 columns for the player 'Test player'
 const Gameboard_TestPlayer = new Gameboard(10,6, 'Test Player');
 Gameboard_FirstComputer.enemyGameboardAdd(Gameboard_TestPlayer);
@@ -41,23 +40,12 @@ Gameboard_TestPlayer.placement("battleship", [3, 1], [5, 1]);
 TestPlayer.humanAttack(2, 1);
 FirstComputer.cpuAttack();
 
+//#endregion
 
-// console.log(`Missed attacks array from CPU: ${FirstComputer.ownGameboard.missedAttacksArray()}`);
-// console.log(`Missed attacks array from Human: ${TestPlayer.ownGameboard.missedAttacksArray()}`);
-
-
-
-
-// TestPlayer.attack(3,1); // ? Attacks the enemy
-// let e = Gameboard_TestEnemy.receiveAttack(4, 1); // Get the attacked ship object 
-// console.log('Section state of attacked ship: ',  e.ship.sectionsState()); // ? Get the actual section state of the attacked enemy ship 
-// console.log('Health: ', e.ship.health()); // ? Get the health of the attacked enemy ship 
-// console.log('Players enemy gameboard: ', TestPlayer.enemy.gameboard); // ? Get the actual gameboard of the enemy
+//#region Main game 
 
 
 //#endregion
-
-
 
 //#region User interface
 const container = document.querySelector(".container");
