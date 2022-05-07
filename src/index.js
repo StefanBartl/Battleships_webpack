@@ -6,6 +6,14 @@ const Gameplay = require('./app-modules/gameplay');
 
 const Game = new Gameplay(1, "Welcome to Battleship"); // Game object which holds information about the game
 
+
+//#region Open Jobs  
+/*
+todo    Gameboard placement does not correspond with receivAttack - Axis are changed
+*/
+//#endregion
+
+
 //#region Ship factory
 // const Battleship= require('../src/app-modules/ship');
 // const MS_BattleshipBrowser = new Battleship(2); // ? Create a new ship. The type depends on the length.
@@ -13,6 +21,7 @@ const Game = new Gameplay(1, "Welcome to Battleship"); // Game object which hold
 // console.log(MS_BattleshipBrowser.type); // ? Returns the ship type
 // console.log(MS_BattleshipBrowser.sunkenState()); // ? Returns if the ship is sunken
 //#endregion
+
 
 //#region  Gameboard factory
 //const Gameboard = require('./app-modules/gameboard');
@@ -23,6 +32,7 @@ const Game = new Gameplay(1, "Welcome to Battleship"); // Game object which hold
 // console.log(Gameboard_One.receiveAttack(1,3)); // ? Returns if the attack hits a ship (maybe which section?   )
 // console.log(Gameboard_One.alive()); // ? Returns if ships are on the gameboard
 //#endregion
+
 
 //#region Player factory
 //const Player = require('../src/app-modules/player');
@@ -42,25 +52,34 @@ FirstComputer.cpuAttack();
 
 //#endregion
 
+
+//#region User interface
+// ? Declaration
+const languageTranslate = document.querySelector(".language-translate");
+const container = document.querySelector(".container");
+
+const page_headline = document.createElement("h1");
+page_headline.classList.add(`page-headline`);
+container.appendChild(page_headline);
+
+
+//#endregion
+
+
 //#region Main game 
 
 
 //#endregion
 
-//#region User interface
-const container = document.querySelector(".container");
-const text = document.createElement("p");
-text.innerText = "Battleship project test text";
-container.appendChild(text);
-//#endregion
 
-// ? Example: Image  
-/*
+/* Example: Image  
+
 import aircraftICO from './graphics/icons/aircraft.ico';
 const aircraft = new Image();
 aircraft.src = aircraftICO;
 container.appendChild(aircraft);
 */
+
 
 
 //#region Table of Content
@@ -79,43 +98,22 @@ todo                 Javascript - what a wonderful language!
 //#endregion
 
 
-//#region Open Jobs  
-/*
-todo    Gameboard placement does not correspond with receivAttack - Axis are changed
-*/
-//#endregion
 
 
-//#region Declaration
+//#region Language translation setup
 
-// ? Language translation
 // Get setted language from local storage or browser language and store it there
 const language = localStorage.language || navigator.language;
-const languageText = document.querySelector(".language-translate");
 
-
-//#endregion
-
-
-//#region Language & Translation
 
 // ? Setup Translation 
 language[0] === "d" && language[1] === "e" ? localStorage.language = "de" : "en";
-
-
-// ! Libraries
-// If the page have less text, do library here in script.js
-function English() {
-}
-
-function German() {
-}
 
 // ? Initial Translation
 localStorage.language === "en" ? English() : German();
 
 // ? Change Language
-languageText.addEventListener("click", ()=>{
+languageTranslate.addEventListener("click", ()=>{
   // Check for the actual language
   if(localStorage.language === "en"){
     // Invoke opposite language
@@ -126,7 +124,21 @@ languageText.addEventListener("click", ()=>{
     English();
     localStorage.language = "en";
   };
-})
+});
+
+//#endregion
+
+//#region Language translation libraries
+
+function English() {
+  languageTranslate.innerText = `de.`;
+  page_headline.innerText = "Battleship Online";
+};
+
+function German() {
+  languageTranslate.innerText = `en.`;
+  page_headline.innerText = "Battleship Online";
+};
 
 //#endregion
 

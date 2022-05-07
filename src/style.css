@@ -92,9 +92,9 @@ todo
 :root.theme_prime{
 
 /*? === design === */
---main-colour: var(--wkd-darkgrey);
---counter-colour: var(--wkd-orange);
---design-strokes-colour: var(--wkd-grey);
+--main-colour: var(--wkd-intense-blue);
+--counter-colour: var(--wkd-grey);
+--design-strokes-colour: var(--wkd-orange);
 --design-strokes-accent-colour: var(--wkd-pinkviolett);
 --shadows: var(--wkd-white);
 
@@ -174,6 +174,20 @@ body {
   background-color: var(--main-colour);
   color: var(--text-main-colour);
   font-family: var(--font-futura);
+}
+
+/* #endregion */
+
+
+/* #region User Interface */
+
+.language-translate {
+  text-align: center;
+}
+
+.page-headline {
+  text-align: center;
+  font-size: 4rem;
 }
 
 /* #endregion */
