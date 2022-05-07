@@ -1,6 +1,6 @@
 const Ship = require('./ship');
 
-const Gameboard = function (sizeX, sizeY, player){
+const Gameboard = function (sizeX, sizeY, player, missedAttacks, shipFormation){
 
         this.sizeX = sizeX; // ? X-axis length
         this.sizeY = sizeY; // ? Y-axis length
@@ -8,7 +8,9 @@ const Gameboard = function (sizeX, sizeY, player){
         shipIDCounter = 1; // ? Unique ship ID
         shipFormation = []; // ? Stores all ships
         formationCounter = 0;  // ? Gameboards should be able to report whether or not all of their ships have been sunk.
+        this.missedAttacks = missedAttacks;
         missedAttacks = [];  // ? Gameboards should keep track of missed attacks so they can display them properly.
+        
 
         // Create a new Gameboard
         let gameboard = [];
@@ -74,7 +76,7 @@ const Gameboard = function (sizeX, sizeY, player){
             if(start[1] === end[1]){ // Same as above but in the other axis
                 for(x = start[0] - 1; x <= end[0] - 1; x++){
                     row = gameboard[x]; 
-                    row[start[1] - 1] = {ID: shipIDCounter, Type: type, Section: section}; 
+                    row[start[0] - 1] = {ID: shipIDCounter, Type: type, Section: section}; 
                     section++; 
                 };
                 correctPlacement = true;
@@ -93,39 +95,34 @@ const Gameboard = function (sizeX, sizeY, player){
     
         receiveAttack = (y, x)=>{
         // Gameboards should have a receiveAttack function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
-
+            // receiveAttack() needs normal indexed arguments!
             // Argument validation
             if(typeof x !== 'number' || typeof y !== 'number') throw new TypeError(`Only 'numbers' are allowed`);
             if(x > sizeX || y > sizeY || x < 0 || y < 0) throw new Error(`Only coordinates between 0 and the gameboard size are allowed. (${sizeX}/${sizeY}).`);
-
-            // Get the attacked cell in the gameboard
-            gameboard_row = gameboard[y-1];
-            // If the attacked cell is not empty...
-            if(gameboard_row[x-1] === typeof 'object') {
-                // Set gameboard cell to hitted
-                gameboard_row[x -1].hitted = true;
-                // Get the attacked ship and hit it
-                attackedShip = shipFormation[gameboard_row[x - 1].ID - 1];
-                attackedShip.hit(gameboard_row[x - 1].Section);
-        //  Return if a ship get hitted or maybe the whole formation is erased by the attack
-                //  If all ships in formation are sunken, return this
+            
+            gameboard_row = gameboard[y-1]; // ? Get the attacked cell in the gameboard
+            if(typeof gameboard_row[x-1] !== 'number') { // ? If the attacked cell is not empty...
+                gameboard_row[x -1].hitted = true; // ?  Set gameboard cell to hitted
+                formationPosition = gameboard_row[x - 1].ID - 1; // ? The ship ID is a unique increasing number, shipFormattion an array. If we want the ship with ID 1, we must do shipFormation[ID - 1]
+                attackedShip = shipFormation[formationPosition]; // ? Get the attacked ship object in the shipFormation array
+                attackedShip.hit(gameboard_row[x - 1].Section); // ? Hit the attacked ship
+                
+                // Return from the function if a ship get hitted or maybe the whole formation is erased by the attack
                 for(let x of shipFormation){
-                    if(x.sunkenState() === true){
+                    if(x.sunkenState() === true){ // ? Return if all ships in formation are sunken
                         formationCounter--;
                         if(formationCounter === 0){
-                            alive = false;
+                            alive = false; 
                             console.log(`Attack hitted & destroyed last ship!`);
                             return `Attack hitted & destroyed last shipt!`;
                         };
                     };
                 };
-                    // If the attack hitted a ship, return this
-                    console.log(`Attack hitted a ship`);
+
+                    console.log(`Attack hitted a ship`);  // ? If the attack hitted a ship, return this
                     return  { string: 'Attack hitted a ship', ship: attackedShip }
                 } else {
-                    // If the attack didn't hit a ship, return this and keep track of missed attacks
-                    missedAttacks.push(gameboard_row[x - 1]);
-                    // console.log(`Missed attacks array: ${missedAttacks}`);
+                    missedAttacks.push(gameboard_row[x - 1]);  // ? If the attack didn't hit a ship, return this and keep track of missed attacks
                     console.log(`Attack didn't hitted a ship`);
                     return false;
                 };
@@ -142,7 +139,11 @@ const Gameboard = function (sizeX, sizeY, player){
             return missedAttacks;
         };
 
-        return { sizeX, sizeY, gameboard, placement, player, receiveAttack, missedAttacksArray, shipFormation, formationCounter, alive };
+        enemyGameboardAdd = (gameboardToAdd) =>{
+            enemyGameboard = gameboardToAdd;
+        };
+
+        return { sizeX, sizeY, gameboard, placement, player, receiveAttack, missedAttacks,  missedAttacksArray, shipFormation, formationCounter, alive, enemyGameboardAdd };
 };
 
 module.exports = Gameboard;
