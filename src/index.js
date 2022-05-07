@@ -16,17 +16,32 @@ todo    Gameboard placement does not correspond with receivAttack - Axis are cha
 //#region User interface
 // ? Declaration
 const languageTranslate = document.querySelector(`.language-translate`);
-const container = document.querySelector(`.container`);
+const startPage_container = document.querySelector(`.start-page-container`);
 
 // Headline
 const page_headline = document.createElement(`h1`);
 page_headline.classList.add(`page-headline`);
-container.appendChild(page_headline);
+startPage_container.appendChild(page_headline);
+
+// Descriptio
+const game_description = document.createElement(`p`);
+game_description.classList.add(`game-description`);
+startPage_container.appendChild(game_description);
+
+// Choose player name
+const player_name = document.createElement(`input`);
+player_name.type = `text`;
+player_name.minLength = 3;
+player_name.maxLength = 15;
+player_name.classList.add(`choose-name-input`);
+startPage_container.appendChild(player_name);
+if(localStorage.PlayerName !== undefined) player_name.value = localStorage.PlayerName;
+
 
 // Start Game button
 const startGame_btn = document.createElement(`button`);
 startGame_btn.classList.add(`.start-game-btn`);
-container.appendChild(startGame_btn);
+startPage_container.appendChild(startGame_btn);
 
 
 
@@ -36,6 +51,19 @@ container.appendChild(startGame_btn);
 //#region Main game 
 
 startGame_btn.addEventListener(`click`, () => {
+  // ? Name Validation and storing
+  let PlayerName = document.querySelector(`.choose-name-input`).value;
+  console.log(PlayerName);
+  if(PlayerName.length < 3){
+    alert(
+    localStorage.language === "en" 
+      ? `Player Name must be at least 3 characters long` 
+      : `Der Spielername muss mindestens 3 Zeichen lang sein`
+    )
+    throw new RangeError(`Player name was ${PlayerName.length} characters long but must have at least 3 characters.`);
+  };
+  localStorage.PlayerName = PlayerName;
+  
   MainGameLoop();
 });
 
@@ -102,17 +130,23 @@ languageTranslate.addEventListener("click", ()=>{
 function English() {
   languageTranslate.innerText = `de.`;
   page_headline.innerText = `Battleship Online`;
+  game_description.innerText = `Welcome to 'Battleship Online'. 
+  Choose your name and click the Start button to start the game. 
+  You start at level 1`;
+  player_name.title = `Choose your name`;
   startGame_btn.innerText = `Start Game`;
   startGame_btn.title = `Click here to start the game`;
-  startGame_btn.alt = `Button to start the game`;
 };
 
 function German() {
   languageTranslate.innerText = `en.`;
   page_headline.innerText = `Battleship Online`;
+  game_description.innerText = `Willkommen bei 'Battleship Online'. 
+  Wähle deinen Namen und klicke auf den Start Button um das Spiel zu starten. 
+  Du startest bei Level 1`;
+  player_name.title = `Wähle deinen Namen`;
   startGame_btn.innerText = `Spiel starten`;
   startGame_btn.title = `Klicke um das Spiel zu starten`;
-  startGame_btn.alt = `Button um das Spiel zu starten`;
 };
 
 //#endregion
