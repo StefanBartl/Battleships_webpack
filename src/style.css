@@ -214,6 +214,23 @@ body {
   height: fit-content;
 }
 
+.section-about {
+  display: flex;
+}
+
+.logos {
+  width: 4rem;
+
+}
+
+.myLogo {
+
+}
+
+.githubLogo {
+
+}
+
 /* #endregion */
 
 

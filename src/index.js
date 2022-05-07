@@ -4,7 +4,9 @@ import './style.css';
 // const Player = require('../src/app-modules/player');
 // const Gameplay = require('./app-modules/gameplay');
 const MainGameLoop = require('./app-modules/maingameloop');
-
+const OpenInNewTab = require('./app-modules/openInNewTab');
+import githubSVG from './graphics/icons/github/github-original-wordmark.svg';
+import myLogoPNG from './graphics/icons/dev_logo.png';
 
 //#region Open Jobs  
 /*
@@ -43,7 +45,20 @@ const startGame_btn = document.createElement(`button`);
 startGame_btn.classList.add(`.start-game-btn`);
 startPage_container.appendChild(startGame_btn);
 
-
+// About section 
+// Get and create images
+const myLogo = new Image();
+const githubLogo = new Image();
+myLogo.src  = myLogoPNG;
+githubLogo.src = githubSVG;
+myLogo.classList.add(`myLogo`, `contact-logos`);
+githubLogo.classList.add(`githubLogo`, `contact-logos`);
+// Create wrapper & append elements
+const section_about = document.createElement(`section`);
+section_about.classList.add(`section-about`);
+section_about.appendChild(myLogo);
+section_about.appendChild(githubLogo);
+startPage_container.appendChild(section_about);
 
 //#endregion
 
@@ -67,9 +82,15 @@ startGame_btn.addEventListener(`click`, () => {
   MainGameLoop();
 });
 
+myLogo.addEventListener(`click`, () => {
+  OpenInNewTab(`https://stefanbartl.github.io/Portfolio/`);
+});
+githubLogo.addEventListener(`click`, () => {
+  OpenInNewTab(`https://github.com/StefanBartl/Battleships`);
+});
+
+
 //#endregion
-
-
 
 /* Example: Image  
 
@@ -128,6 +149,7 @@ languageTranslate.addEventListener("click", ()=>{
 //#region Language translation libraries
 
 function English() {
+  // Start Page
   languageTranslate.innerText = `de.`;
   page_headline.innerText = `Battleship Online`;
   game_description.innerText = `Welcome to 'Battleship Online'. 
@@ -136,9 +158,12 @@ function English() {
   player_name.title = `Choose your name`;
   startGame_btn.innerText = `Start Game`;
   startGame_btn.title = `Click here to start the game`;
+  myLogo.title = `Click to go to my personal portfolio page`;
+  githubLogo.title = `Click to go to this project's Github repository (including README file)`;
 };
 
 function German() {
+  // Start page
   languageTranslate.innerText = `en.`;
   page_headline.innerText = `Battleship Online`;
   game_description.innerText = `Willkommen bei 'Battleship Online'. 
@@ -147,6 +172,8 @@ function German() {
   player_name.title = `Wähle deinen Namen`;
   startGame_btn.innerText = `Spiel starten`;
   startGame_btn.title = `Klicke um das Spiel zu starten`;
+  myLogo.title = `Klicke um zu meiner persönlichen Portfolio-Seite zu kommen`;
+  githubLogo.title = `Klicke um zum Github-Repository dieses Projects zu kommen (inklusive README-Datei)`;
 };
 
 //#endregion
